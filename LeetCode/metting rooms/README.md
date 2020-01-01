@@ -1,4 +1,6 @@
-# Question 
+# [Meeting Rooms](https://leetcode.com/problems/meeting-rooms/)
+
+## Question 
 
 Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), determine if a person could attend all meetings.
 
@@ -18,7 +20,7 @@ Output: true
 
 NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
 
-# Solution 
+## Solution 
 
 The idea is to sort the meeting by starting time. Then, go through the meeting one by one and make sure that each meeting ends before the next one stars.
 
