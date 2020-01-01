@@ -2,7 +2,7 @@
 
 ## Approach 1: Brute Force 
 
-The brute force approach is simple. Loop through each element xx and find if there is another value that equals to target - xtarget−x.
+The brute force approach is simple. Loop through each element xx and find if there is another value that equals to target - x.
 
 ```java
 public int[] twoSum(int[] nums, int target) {
@@ -26,5 +26,5 @@ Therefore, the time complexity is *O(n^2)* .
 
 ### Space complexity
 
-*0(1)*
+*O(1)*
 
