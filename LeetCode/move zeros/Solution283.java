@@ -64,7 +64,7 @@ public class Solution283 {
         }
     }
 
-    public static class Solution1Test {
+    public static class Solution283Test {
 
         @Test
         public void testMain() {
