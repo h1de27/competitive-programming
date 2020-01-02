@@ -26,3 +26,38 @@ Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (m
 
 ## Solution 
 
+This is obviously dp question, so what we have to do is to get max value while iterating through each houses.
+
+Also, if we translate this question to mathematical equations, it is easy to understand. 
+
+Let's say:
+
+f(k) = Largest amount that we can rob from the first k houses.
+Ai = Amount of money at the i-th house.
+
+If n = 1, f(1) = A1.
+If n = 2, f(2) = max(A1, A2).
+If n = 3, we have two options. 
+
+1. Rob the third house, and add its amount to the first house's amount.
+
+2. Do not rob the third house, and stick with the max amount of the first two houses.
+
+So we can say:
+
+f(k) = max(f(k - 2) + Ak, f(k - 1))
+
+```java
+public int rob(int[] nums) {
+    int prevMax = 0;
+    int currMax = 0;
+    for (int x: nums) {
+        int temp = currMax;
+        currMax = Math.max(prevMax + x, currMax);
+        prevMax = temp;
+    }
+    return currMax;
+}
+```
+
+This questions tell us how important translating question to mathematical formula is!
