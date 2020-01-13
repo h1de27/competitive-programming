@@ -106,3 +106,7 @@ public boolean win(String[] B, char P) {
 }
 ```
 
+## Time and Space Complexity
+
+O(1) since the size of array is always 3, the length of the each string will be 3 and we don't have to use additional array.
+
