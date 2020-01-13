@@ -54,3 +54,11 @@ public int trap(int[] height) {
     return ans;
 }
 ```
+
+## Time complexity
+
+O(N) since it requires single iteration.
+
+## Space complexity
+
+O(1) extra space to store left, right, leftMax, and rightMax.
