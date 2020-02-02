@@ -4,57 +4,44 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class Main {
+public class B45 {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve()
     {
-        /*
-        int H = ni(), W = ni();
-        int A = ni(), B = ni();
-        char[][] map = new char[H][W];
-        for(int i = 0;i < H;i++){
-            for(int j = 0;j < W;j++){
-                map[i][j] = '0';
-                if(j >= A && i < B){
-                    map[i][j] = '1';
-                }
-                if(i >= B && j < A){
-                    map[i][j] = '1';
-                }
-            }
-        }
-        for(int i = 0;i < H;i++){
-            out.println(new String(map[i]));
-        }
-         */
+        Map<Character, Queue<Character>> map = new HashMap<>();
+        Queue<Character> a = new LinkedList<>();
+        Queue<Character> b = new LinkedList<>();
+        Queue<Character> c = new LinkedList<>();
 
-        List<Integer> numbers = new ArrayList<>(Arrays.asList(7, 10, 6, 2, 3, 7, 1, 2));
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        int num = numbers.size();
-        int count = 0;
-        for (int i = 0; i < num; i++) {
-            int target = numbers.get(i);
-            if (pq.isEmpty()) {
-                pq.offer(target);
-                count++;
-            } else {
-                PriorityQueue<Integer> tmp = new PriorityQueue<>(pq);
-                int iteration = 0;
-                while (!tmp.isEmpty()) {
-                    int item = tmp.poll();
-                    if (item < target) {
-                        iteration++;
-                    }
-                }
-                count += Math.min(iteration, pq.size() - iteration) * 2 + 1;
-                pq.offer(target);
-            }
+        map.put('a', a);
+        map.put('b', b);
+        map.put('c', c);
+
+        String SA = ns();
+        String SB = ns();
+        String SC = ns();
+
+        for (int i = 0; i < SA.length(); i++) {
+            a.add(SA.charAt(i));
         }
 
-        System.out.println(count);
+        for (int i = 0; i < SB.length(); i++) {
+            b.add(SB.charAt(i));
+        }
+
+        for (int i = 0; i < SC.length(); i++) {
+            c.add(SC.charAt(i));
+        }
+
+        char lead = 'a';
+        while (map.get(lead).size() != 0) {
+            char card = map.get(lead).poll();
+            lead = card;
+        }
+        System.out.println(Character.toUpperCase(lead));
     }
 
     public static void main(String[] args) throws Exception
@@ -192,3 +179,4 @@ public class Main {
 
     private static void tr(Object... o) { if(INPUT.length() != 0)System.out.println(Arrays.deepToString(o)); }
 }
+

@@ -4,57 +4,18 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class Main {
+public class B46 {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve()
     {
-        /*
-        int H = ni(), W = ni();
-        int A = ni(), B = ni();
-        char[][] map = new char[H][W];
-        for(int i = 0;i < H;i++){
-            for(int j = 0;j < W;j++){
-                map[i][j] = '0';
-                if(j >= A && i < B){
-                    map[i][j] = '1';
-                }
-                if(i >= B && j < A){
-                    map[i][j] = '1';
-                }
-            }
-        }
-        for(int i = 0;i < H;i++){
-            out.println(new String(map[i]));
-        }
-         */
+        long N = nl();
+        long K = nl();
 
-        List<Integer> numbers = new ArrayList<>(Arrays.asList(7, 10, 6, 2, 3, 7, 1, 2));
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        int num = numbers.size();
-        int count = 0;
-        for (int i = 0; i < num; i++) {
-            int target = numbers.get(i);
-            if (pq.isEmpty()) {
-                pq.offer(target);
-                count++;
-            } else {
-                PriorityQueue<Integer> tmp = new PriorityQueue<>(pq);
-                int iteration = 0;
-                while (!tmp.isEmpty()) {
-                    int item = tmp.poll();
-                    if (item < target) {
-                        iteration++;
-                    }
-                }
-                count += Math.min(iteration, pq.size() - iteration) * 2 + 1;
-                pq.offer(target);
-            }
-        }
+        out.println(K * (long) Math.pow(K - 1, N - 1));
 
-        System.out.println(count);
     }
 
     public static void main(String[] args) throws Exception
@@ -192,3 +153,4 @@ public class Main {
 
     private static void tr(Object... o) { if(INPUT.length() != 0)System.out.println(Arrays.deepToString(o)); }
 }
+
