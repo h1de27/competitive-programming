@@ -4,57 +4,49 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class Main {
+public class D49 {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve()
     {
-        /*
-        int H = ni(), W = ni();
-        int A = ni(), B = ni();
-        char[][] map = new char[H][W];
-        for(int i = 0;i < H;i++){
-            for(int j = 0;j < W;j++){
-                map[i][j] = '0';
-                if(j >= A && i < B){
-                    map[i][j] = '1';
-                }
-                if(i >= B && j < A){
-                    map[i][j] = '1';
-                }
-            }
-        }
-        for(int i = 0;i < H;i++){
-            out.println(new String(map[i]));
-        }
-         */
+        int N = ni();
+        int K = ni();
+        int L = ni();
 
-        List<Integer> numbers = new ArrayList<>(Arrays.asList(7, 10, 6, 2, 3, 7, 1, 2));
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        int num = numbers.size();
-        int count = 0;
-        for (int i = 0; i < num; i++) {
-            int target = numbers.get(i);
-            if (pq.isEmpty()) {
-                pq.offer(target);
-                count++;
-            } else {
-                PriorityQueue<Integer> tmp = new PriorityQueue<>(pq);
-                int iteration = 0;
-                while (!tmp.isEmpty()) {
-                    int item = tmp.poll();
-                    if (item < target) {
-                        iteration++;
-                    }
-                }
-                count += Math.min(iteration, pq.size() - iteration) * 2 + 1;
-                pq.offer(target);
-            }
+        UnionFind tree1 = new UnionFind(N);
+        UnionFind tree2 = new UnionFind(N);
+
+        for (int i = 0; i < K; i++) {
+            int p = ni();
+            int q = ni();
+            tree1.union(p - 1, q - 1);
         }
 
-        System.out.println(count);
+        for (int i = 0; i < L; i++) {
+            int r = ni();
+            int s = ni();
+            tree2.union(r - 1, s - 1);
+        }
+
+        tree1.print();
+        tree2.print();
+
+        TreeMap<Long, Integer> count = new TreeMap<>();
+        for (int i = 0; i < N; i++) {
+            long key = (long) tree1.find(i) * N + tree2.find(i);
+            Integer cnt = count.get(key);
+            if (cnt == null) count.put(key, 1);
+            else count.put(key, cnt + 1);
+        }
+
+        for (int i = 0; i < N; i++) {
+            if (i > 0) out.print(" ");
+            long key = (long) tree1.find(i) * N + tree2.find(i);
+            out.print(count.get(key));
+        }
+        out.println("");
     }
 
     public static void main(String[] args) throws Exception
