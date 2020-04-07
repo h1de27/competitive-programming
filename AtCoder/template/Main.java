@@ -11,50 +11,7 @@ public class Main {
 
     static void solve()
     {
-        /*
-        int H = ni(), W = ni();
-        int A = ni(), B = ni();
-        char[][] map = new char[H][W];
-        for(int i = 0;i < H;i++){
-            for(int j = 0;j < W;j++){
-                map[i][j] = '0';
-                if(j >= A && i < B){
-                    map[i][j] = '1';
-                }
-                if(i >= B && j < A){
-                    map[i][j] = '1';
-                }
-            }
-        }
-        for(int i = 0;i < H;i++){
-            out.println(new String(map[i]));
-        }
-         */
 
-        List<Integer> numbers = new ArrayList<>(Arrays.asList(7, 10, 6, 2, 3, 7, 1, 2));
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        int num = numbers.size();
-        int count = 0;
-        for (int i = 0; i < num; i++) {
-            int target = numbers.get(i);
-            if (pq.isEmpty()) {
-                pq.offer(target);
-                count++;
-            } else {
-                PriorityQueue<Integer> tmp = new PriorityQueue<>(pq);
-                int iteration = 0;
-                while (!tmp.isEmpty()) {
-                    int item = tmp.poll();
-                    if (item < target) {
-                        iteration++;
-                    }
-                }
-                count += Math.min(iteration, pq.size() - iteration) * 2 + 1;
-                pq.offer(target);
-            }
-        }
-
-        System.out.println(count);
     }
 
     public static void main(String[] args) throws Exception
@@ -192,6 +149,7 @@ public class Main {
 
     private static void tr(Object... o) { if(INPUT.length() != 0)System.out.println(Arrays.deepToString(o)); }
 
+    // Union-Find
     // https://algs4.cs.princeton.edu/15uf/UF.java.html
     public static class UnionFind {
         private int count = 0;
@@ -247,5 +205,33 @@ public class Main {
             }
             out.println();
         }
+    }
+
+    // Dijkstra
+    // Return min distance from start to end O(ElogV) (negative cost is prohibited)
+    // edge is int[3] array {from,to,cost}
+    // edges is edge list from specific node
+    // all_edges is Map<from node number,edges>
+    static int dijkstra(Map<Integer,List<int[]>> all_edges,int start,int end,int max_node_number) {
+        int[] distance = new int[max_node_number + 1];
+        Arrays.fill(distance, -1);
+        PriorityQueue<int[]> p_que = new PriorityQueue<>((a,b) -> ((distance[a[0]] + a[2]) - (distance[b[0]] + b[2])));
+        distance[start] = 0;
+        List<int[]> edges = all_edges.get(start);
+        p_que.addAll(edges);
+        while (distance[end] < 0) {
+            int[] nearest_edge = p_que.poll();
+            assert nearest_edge != null;
+            if (distance[nearest_edge[1]] < 0) {
+                distance[nearest_edge[1]] = distance[nearest_edge[0]] + nearest_edge[2];
+                if (all_edges.containsKey(nearest_edge[1])) {
+                    edges = all_edges.get(nearest_edge[1]);
+                    for (int[] edge : edges) {
+                        if (distance[edge[1]] < 0) p_que.add(edge);
+                    }
+                }
+            }
+        }
+        return distance[end];
     }
 }
