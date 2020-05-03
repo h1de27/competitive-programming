@@ -4,13 +4,44 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class Main {
+public class B57 {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve() {
+        int n = ni();
+        int m = ni();
 
+        int[][] position = new int[n][2];
+        int[][] checkpoint = new int[m][2];
+
+        for (int i = 0; i < n; i++) {
+            position[i][0] = ni();
+            position[i][1] = ni();
+        }
+
+        for (int i = 0; i < m; i++) {
+            checkpoint[i][0] = ni();
+            checkpoint[i][1] = ni();
+        }
+
+        for (int i = 0; i < n; i++) {
+            int x = position[i][0];
+            int y = position[i][1];
+            int distance = Math.abs(checkpoint[0][0] - x) + Math.abs(checkpoint[0][1] - y);
+            int point = 1;
+            for (int j = 1; j < m; j++) {
+                int xc = checkpoint[j][0];
+                int yc = checkpoint[j][1];
+                int man = Math.abs(xc - x) + Math.abs(yc - y);
+                if (distance > man) {
+                    distance = man;
+                    point = j + 1;
+                }
+            }
+            out.println(point);
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -139,7 +170,6 @@ public class Main {
 
     private static void tr(Object... o) { if(INPUT.length() != 0)System.out.println(Arrays.deepToString(o)); }
 
-    // Union-Find
     // https://algs4.cs.princeton.edu/15uf/UF.java.html
     public static class UnionFind {
         private int count = 0;
@@ -195,53 +225,5 @@ public class Main {
             }
             out.println();
         }
-    }
-
-    // Dijkstra
-    // Return min distance from start to end O(ElogV) (negative cost is prohibited)
-    // edge is int[3] array {from,to,cost}
-    // edges is edge list from specific node
-    // all_edges is Map<from node number,edges>
-    static int dijkstra(Map<Integer,List<int[]>> all_edges,int start,int end,int max_node_number) {
-        int[] distance = new int[max_node_number + 1];
-        Arrays.fill(distance, -1);
-        PriorityQueue<int[]> p_que = new PriorityQueue<>((a,b) -> ((distance[a[0]] + a[2]) - (distance[b[0]] + b[2])));
-        distance[start] = 0;
-        List<int[]> edges = all_edges.get(start);
-        p_que.addAll(edges);
-        while (distance[end] < 0) {
-            int[] nearest_edge = p_que.poll();
-            assert nearest_edge != null;
-            if (distance[nearest_edge[1]] < 0) {
-                distance[nearest_edge[1]] = distance[nearest_edge[0]] + nearest_edge[2];
-                if (all_edges.containsKey(nearest_edge[1])) {
-                    edges = all_edges.get(nearest_edge[1]);
-                    for (int[] edge : edges) {
-                        if (distance[edge[1]] < 0) p_que.add(edge);
-                    }
-                }
-            }
-        }
-        return distance[end];
-    }
-
-    // Enumerate primes in [2, n] with O(n log log n)
-    public static List<Integer> sieveOfEratosthenes(int n) {
-        boolean[] isPrime = new boolean[n+1];
-        Arrays.fill(isPrime, true);
-        for (int i = 2; i * i <= n; i++) {
-            if (isPrime[i]) {
-                for (int j = i + i; j <= n; j += i) {
-                    isPrime[j] = false;
-                }
-            }
-        }
-        List<Integer> primes = new ArrayList<>();
-        for (int i = 2; i <= n; i++) {
-            if (isPrime[i]) {
-                primes.add(i);
-            }
-        }
-        return primes;
     }
 }
