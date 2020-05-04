@@ -5,13 +5,25 @@ import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class sumitomoD {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve() {
-
+        int n = ni();
+        String s = ns();
+        int ans = 0;
+        for (int i = 0; i <= 999; i++) {
+            int[] c = {i / 100, (i / 10) % 10, i % 10};
+            int f = 0;
+            for (int j = 0; j < n; j++) {
+                if (s.charAt(j) == ('0' + c[f])) f++;
+                if (f == 3) break;
+            }
+            if (f == 3) ans++;
+        }
+        out.println(ans);
     }
 
     public static void main(String[] args) throws Exception {

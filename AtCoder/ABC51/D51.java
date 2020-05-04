@@ -2,19 +2,71 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class D51 {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
-    static void solve() {
+    static void solve()
+    {
+        int inf = Integer.MAX_VALUE;
+        int n = ni();
+        int m = ni();
 
+        int a[] = new int[1000], b[] = new int[1000], c[] = new int[1000], dist[][] = new int[100][100];
+
+        for (int i = 0; i < m; i++) {
+            a[i] = ni();
+            b[i] = ni();
+            c[i] = ni();
+            a[i]--;
+            b[i]--;
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j)
+                    dist[i][j] = 0;
+                else
+                    dist[i][j] = inf;
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            dist[a[i]][b[i]] = Math.min(dist[a[i]][b[i]], c[i]);
+            dist[b[i]][a[i]] = Math.min(dist[b[i]][a[i]], c[i]);
+        }
+
+        for (int k = 0; k < n; k++) {
+            for(int i = 0; i < n; i++) {
+                if (dist[i][k] == Integer.MAX_VALUE) {
+                    continue;
+                }
+                for(int j = 0; j < n; j++) {
+                    if (dist[k][j] == Integer.MAX_VALUE) {
+                        continue;
+                    }
+                    dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+                }
+            }
+        }
+
+        int ans = m;
+        for(int i = 0; i < m; i++) {
+            boolean shortest = false;
+            for (int j = 0; j < n; j++) if (dist[j][a[i]] + c[i] == dist[j][b[i]]) shortest = true;
+            if(shortest) {
+                ans = ans - 1;
+            }
+        }
+
+        out.println(ans);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception
+    {
         long S = System.currentTimeMillis();
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
@@ -25,7 +77,8 @@ public class Main {
         tr(G-S+"ms");
     }
 
-    private static boolean eof() {
+    private static boolean eof()
+    {
         if(lenbuf == -1)return true;
         int lptr = ptrbuf;
         while(lptr < lenbuf)if(!isSpaceChar(inbuf[lptr++]))return false;
@@ -50,7 +103,8 @@ public class Main {
     private static byte[] inbuf = new byte[1024];
     static int lenbuf = 0, ptrbuf = 0;
 
-    private static int readByte() {
+    private static int readByte()
+    {
         if(lenbuf == -1)throw new InputMismatchException();
         if(ptrbuf >= lenbuf){
             ptrbuf = 0;
@@ -67,7 +121,8 @@ public class Main {
     private static double nd() { return Double.parseDouble(ns()); }
     private static char nc() { return (char)skip(); }
 
-    private static String ns() {
+    private static String ns()
+    {
         int b = skip();
         StringBuilder sb = new StringBuilder();
         while(!(isSpaceChar(b))){
@@ -77,7 +132,8 @@ public class Main {
         return sb.toString();
     }
 
-    private static char[] ns(int n) {
+    private static char[] ns(int n)
+    {
         char[] buf = new char[n];
         int b = skip(), p = 0;
         while(p < n && !(isSpaceChar(b))){
@@ -87,19 +143,22 @@ public class Main {
         return n == p ? buf : Arrays.copyOf(buf, p);
     }
 
-    private static char[][] nm(int n, int m) {
+    private static char[][] nm(int n, int m)
+    {
         char[][] map = new char[n][];
         for(int i = 0;i < n;i++)map[i] = ns(m);
         return map;
     }
 
-    private static int[] na(int n) {
+    private static int[] na(int n)
+    {
         int[] a = new int[n];
         for(int i = 0;i < n;i++)a[i] = ni();
         return a;
     }
 
-    private static int ni() {
+    private static int ni()
+    {
         int num = 0, b;
         boolean minus = false;
         while((b = readByte()) != -1 && !((b >= '0' && b <= '9') || b == '-'));
@@ -118,7 +177,8 @@ public class Main {
         }
     }
 
-    private static long nl() {
+    private static long nl()
+    {
         long num = 0;
         int b;
         boolean minus = false;
@@ -224,43 +284,5 @@ public class Main {
             }
         }
         return distance[end];
-    }
-
-    // Enumerate primes in [2, n] with O(n log log n)
-    public static List<Integer> sieveOfEratosthenes(int n) {
-        boolean[] isPrime = new boolean[n+1];
-        Arrays.fill(isPrime, true);
-        for (int i = 2; i * i <= n; i++) {
-            if (isPrime[i]) {
-                for (int j = i + i; j <= n; j += i) {
-                    isPrime[j] = false;
-                }
-            }
-        }
-        List<Integer> primes = new ArrayList<>();
-        for (int i = 2; i <= n; i++) {
-            if (isPrime[i]) {
-                primes.add(i);
-            }
-        }
-        return primes;
-    }
-
-    // Count divisor
-    public static int countDivisor(int n) {
-        int[] list = new int[n + 1];
-        Arrays.fill(list, 0);
-        int num = n;
-        for (int i = 2; i <= n; i++) {
-            while (num % i == 0) {
-                list[i] = list[i] + 1;
-                num /= i;
-            }
-        }
-        int ans = 1;
-        for (int i : list) {
-            ans *= (i + 1);
-        }
-        return ans;
     }
 }

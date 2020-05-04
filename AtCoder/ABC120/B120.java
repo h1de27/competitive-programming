@@ -5,13 +5,34 @@ import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class B120 {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve() {
+        int a = ni();
+        int b = ni();
+        int k = ni();
 
+        int smaller = Math.min(a, b);
+        int bigger = Math.max(a, b);
+        List<Integer> divisor = new ArrayList<>();
+        for (int i = smaller; i >= 1; i--) {
+            if (smaller % i == 0) {
+                divisor.add(i);
+            }
+        }
+
+        for (int i : divisor) {
+            if (bigger % i == 0) {
+                k--;
+            }
+            if (k == 0) {
+                out.println(i);
+                break;
+            }
+        }
     }
 
     public static void main(String[] args) throws Exception {
