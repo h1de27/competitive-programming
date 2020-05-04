@@ -5,13 +5,25 @@ import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class C95 {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve() {
+        int a = ni();
+        int b = ni();
+        int c = ni();
+        int x = ni();
+        int y = ni();
 
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i <= 100000; i++) {
+            int price = i * 2 * c + Math.max(0, x - i) * a +
+                    Math.max(0, y - i) * b;
+            min = Math.min(min, price);
+        }
+        out.println(min);
     }
 
     public static void main(String[] args) throws Exception {

@@ -2,16 +2,31 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class B122 {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve() {
-
+        String s = ns();
+        int max = 0;
+        for (int i = 0; i < s.length();i++) {
+            int j = i;
+            int count = 0;
+            while (j < s.length()) {
+                if (s.charAt(j) == 'A' || s.charAt(j) == 'T' ||
+                    s.charAt(j) == 'G' || s.charAt(j) == 'C') {
+                    count++;
+                    j++;
+                } else {
+                    break;
+                }
+            }
+            max = Math.max(max, count);
+        }
+        out.println(max);
     }
 
     public static void main(String[] args) throws Exception {
@@ -244,23 +259,5 @@ public class Main {
             }
         }
         return primes;
-    }
-
-    // Count divisor
-    public static int countDivisor(int n) {
-        int[] list = new int[n + 1];
-        Arrays.fill(list, 0);
-        int num = n;
-        for (int i = 2; i <= n; i++) {
-            while (num % i == 0) {
-                list[i] = list[i] + 1;
-                num /= i;
-            }
-        }
-        int ans = 1;
-        for (int i : list) {
-            ans *= (i + 1);
-        }
-        return ans;
     }
 }
