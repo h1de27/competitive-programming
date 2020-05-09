@@ -4,13 +4,36 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class Main {
+public class pakenC {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve() {
+        int N = ni();
+        int M = ni();
+        long[][] song = new long[N][M];
 
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                song[i][j] = nl();
+            }
+        }
+
+        long max = 0;
+
+        for (int i = 0; i < M - 1; i++) {
+            for (int j = i + 1; j < M; j++) {
+                long total = 0;
+                for (int k = 0; k < N; k++) {
+                    long score = Math.max(song[k][i], song[k][j]);
+                    total += score;
+                }
+                max = Math.max(max, total);
+            }
+        }
+
+        out.println(max);
     }
 
     public static void main(String[] args) throws Exception {

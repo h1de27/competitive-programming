@@ -4,12 +4,34 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class Main {
+public class B7 {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve() {
+        while (true) {
+            int N = ni();
+            int X = ni();
+
+            if (N == 0 && X == 0) {
+                break;
+            }
+
+            int ans = 0;
+
+            for (int i = 1; i <= N - 2; i++) {
+                for (int j = i + 1; j <= N - 1; j++) {
+                    for (int k = j + 1; k <= N; k++) {
+                        if (i + j + k == X) {
+                            ans++;
+                        }
+                    }
+                }
+            }
+
+            out.println(ans);
+        }
 
     }
 
