@@ -4,35 +4,39 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class B7 {
+public class square6B {
     static InputStream is;
     static PrintWriter out;
     static String INPUT = "";
 
     static void solve() {
-        while (true) {
-            int N = ni();
-            int X = ni();
+        int N = ni();
+        long[][] shop = new long[N][2];
+        List<Long> list = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            long A = nl();
+            long B = nl();
+            shop[i][0] = A;
+            shop[i][1] = B;
+            list.add(A);
+            list.add(B);
 
-            if (N == 0 && X == 0) {
-                break;
-            }
-
-            int ans = 0;
-
-            for (int i = 1; i <= N - 2; i++) {
-                for (int j = i + 1; j <= N - 1; j++) {
-                    for (int k = j + 1; k <= N; k++) {
-                        if (i + j + k == X) {
-                            ans++;
-                        }
-                    }
-                }
-            }
-
-            out.println(ans);
         }
 
+        long time = Long.MAX_VALUE;
+
+        for (long i : list) {
+            for (long j : list) {
+                long tmp = 0;
+                for (int k = 0; k < N; k++) {
+                    tmp += (Math.abs(i - shop[k][0])
+                            + (shop[k][1] - shop[k][0])
+                            + Math.abs(j - shop[k][1]));
+                }
+                time = Math.min(time, tmp);
+            }
+        }
+        out.println(time);
     }
 
     public static void main(String[] args) throws Exception {
